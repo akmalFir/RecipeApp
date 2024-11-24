@@ -1,0 +1,22 @@
+[
+    {
+        "types": "Malay Dish",
+        "id": "1"
+    },
+    {
+        "types": "Chinese Dish",
+        "id": "2"
+    },
+    {
+        "types": "Indian Dish",
+        "id": "3"
+    },
+    {
+        "types": "Western Dish",
+        "id": "4"
+    },
+    {
+        "types": "Drinks & Desserts",
+        "id": "5"
+    }
+]
