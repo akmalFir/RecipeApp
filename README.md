@@ -37,11 +37,6 @@ A simple Recipe App built using Flutter and GetX for state management. This app 
 7. **Profile Page** - Displays user information and logout option.
 
 
-## Project Structure 
-
-lib/ ├── controller/ │ └── recipe_controller.dart # Manages recipe data and state ├── models/ │ └── recipe.dart # Defines the Recipe model ├── routes.dart # App route configuration and navigation logic ├── view/ │ ├── authentication/ # Authentication-related pages │ │ ├── login_page.dart # Login screen │ │ ├── register.dart # Registration screen │ │ └── forgot_password_page.dart # Forgot password screen │ ├── profile/ │ │ └── profile_page.dart # Profile screen │ ├── recipe_add.dart # Recipe add/edit page │ ├── recipe_detail.dart # Recipe details page │ └── recipe_list.dart # Main page listing all recipes └── main.dart # Application entry point
-
-
 ## Dependencies  
 
 The following dependencies are used in this project:  
