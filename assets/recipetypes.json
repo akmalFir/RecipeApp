@@ -16,7 +16,11 @@
         "id": "4"
     },
     {
-        "types": "Drinks & Desserts",
+        "types": "Drinks",
         "id": "5"
+    },
+    {
+        "types": "Desserts",
+        "id": "6"
     }
 ]

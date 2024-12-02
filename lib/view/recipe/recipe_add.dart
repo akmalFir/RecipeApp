@@ -1,4 +1,5 @@
 import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,7 +22,7 @@ class RecipeAdd extends StatefulWidget {
 }
 
 class _RecipeAddState extends State<RecipeAdd> {
-  final RecipeController recipeController = Get.find();
+  final RecipeController recipeController = Get.find<RecipeController>();
   final _formKey = GlobalKey<FormState>();
   String? _imagePath;
   final _nameController = TextEditingController();
@@ -48,9 +49,17 @@ class _RecipeAddState extends State<RecipeAdd> {
 
       if (mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
-          const SnackBar(content: Text('Recipe saved successfully!')),
+          const SnackBar(
+            content: Text('Recipe saved successfully!'),
+          ),
         );
-        Navigator.pop(context);
+        _nameController.clear();
+        _ingredientsController.clear();
+        _stepsController.clear();
+        _imagePath = null;
+        setState(() {
+          _recipeType = null;
+        });
       }
     }
   }
@@ -182,12 +191,27 @@ class _RecipeAddState extends State<RecipeAdd> {
                 ),
               ),
               const SizedBox(height: 16),
-              if (_imagePath != null)
-                Image.file(
-                  File(_imagePath!),
-                  width: double.infinity,
-                  height: MediaQuery.of(context).size.height * 1 / 3,
-                  fit: BoxFit.cover,
+              if (_imagePath != null && _imagePath!.isNotEmpty)
+                _imagePath!.contains('assets')
+                    ? Container(
+                        height: MediaQuery.of(context).size.height * 1 / 3,
+                        width: double.infinity,
+                        decoration: BoxDecoration(
+                          image: DecorationImage(
+                            image: AssetImage(_imagePath!),
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                      )
+                    : Image.file(
+                        File(_imagePath!),
+                        width: double.infinity,
+                        height: MediaQuery.of(context).size.height * 1 / 3,
+                        fit: BoxFit.cover,
+                      )
+              else if (widget.recipe != null)
+                const Center(
+                  child: Text('No image found'),
                 ),
               const SizedBox(height: 16),
               TextFormField(
@@ -198,7 +222,7 @@ class _RecipeAddState extends State<RecipeAdd> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                maxLines: 3,
+                maxLines: 4,
                 validator: (value) =>
                     value!.isEmpty ? 'Enter ingredients' : null,
               ),
@@ -211,7 +235,7 @@ class _RecipeAddState extends State<RecipeAdd> {
                     borderRadius: BorderRadius.circular(16),
                   ),
                 ),
-                maxLines: 3,
+                maxLines: 4,
                 validator: (value) => value!.isEmpty ? 'Enter steps' : null,
               ),
               const SizedBox(height: 16),
