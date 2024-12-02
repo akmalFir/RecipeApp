@@ -1,60 +1,51 @@
-import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:recipe_app/models/recipe.dart';
 import 'package:recipe_app/view/profile/profile_page.dart';
 import 'view/authentication/auth_wrapper.dart';
 import 'view/authentication/forgot_password_page.dart';
 import 'view/authentication/login_page.dart';
 import 'view/authentication/register.dart';
+import 'view/home.dart';
 import 'view/recipe/recipe_add.dart';
 import 'view/recipe/recipe_detail.dart';
-import 'view/recipe/recipe_list.dart';
+import 'view/recipe/recipe_home.dart';
 
 class AppRoutes {
+  static const home = '/home';
   static const root = '/';
   static const login = '/login';
   static const register = '/register';
   static const forgotPassword = '/forgot-password';
-  static const home = '/home';
+  static const recipeHome = '/recipe-home';
   static const recipeAdd = '/recipe-add';
   static const recipeDetail = '/recipe-detail';
   static const profile = '/profile';
 
-  static Route<dynamic> onGenerateRoute(RouteSettings settings) {
-    switch (settings.name) {
-      case root:
-        return MaterialPageRoute(builder: (_) => RootPage());
-      case login:
-        return MaterialPageRoute(builder: (_) => LoginPage());
-      case register:
-        return MaterialPageRoute(builder: (_) => RegisterPage());
-      case forgotPassword:
-        return MaterialPageRoute(builder: (_) => ForgotPasswordPage());
-      case home:
-        return MaterialPageRoute(builder: (_) => const RecipeList());
-      case recipeAdd:
-        final args = settings.arguments as Map<String, dynamic>?;
+  final List<GetPage> getPages = [
+    GetPage(name: AppRoutes.home, page: () => HomePage()),
+    GetPage(name: AppRoutes.root, page: () => AuthWrapper()),
+    GetPage(name: AppRoutes.login, page: () => LoginPage()),
+    GetPage(name: AppRoutes.register, page: () => RegisterPage()),
+    GetPage(name: AppRoutes.forgotPassword, page: () => ForgotPasswordPage()),
+    GetPage(name: AppRoutes.recipeHome, page: () => const RecipeHome()),
+    GetPage(
+      name: AppRoutes.recipeAdd,
+      page: () {
+        final args = Get.arguments as Map<String, dynamic>?;
         final recipe = args?['recipe'] as Recipe?;
         final index = args?['index'] as int?;
-        return MaterialPageRoute(
-          builder: (_) => RecipeAdd(recipe: recipe, index: index),
-        );
-      case recipeDetail:
-        final args = settings.arguments as Map<String, dynamic>;
+        return RecipeAdd(recipe: recipe, index: index);
+      },
+    ),
+    GetPage(
+      name: AppRoutes.recipeDetail,
+      page: () {
+        final args = Get.arguments as Map<String, dynamic>;
         final recipe = args['recipe'] as Recipe;
         final index = args['index'] as int;
-        return MaterialPageRoute(
-          builder: (_) => RecipeDetail(recipe: recipe, index: index),
-        );
-      case profile:
-        return MaterialPageRoute(builder: (_) => ProfilePage());
-      default:
-        return MaterialPageRoute(
-          builder: (_) => Scaffold(
-            body: Center(
-              child: Text('No route defined for ${settings.name}'),
-            ),
-          ),
-        );
-    }
-  }
+        return RecipeDetail(recipe: recipe, index: index);
+      },
+    ),
+    GetPage(name: AppRoutes.profile, page: () => ProfilePage()),
+  ];
 }
